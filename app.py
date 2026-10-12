@@ -10,10 +10,7 @@ key_string = st.secrets["firebase_key"]
 cred_dict = json.loads(key_string)
 
 cred = credentials.Certificate(cred_dict)
-
-
-    firebase_admin.initialize_app(cred)
-
+firebase_admin.initialize_app(cred)
 db = firestore.client()
 
 
