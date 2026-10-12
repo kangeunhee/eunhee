@@ -1,12 +1,22 @@
-import streamlit as st
+import streamlit as st  #streamlit run web.py
+import firebase_admin
+from firebase_admin import credentials, firestore
 
-st.title("🚀 나의 첫 웹앱")
-st.info("파이썬만으로 제작하는 UI")
 
-col1, col2, col3 = st.columns(3)
-with col1:
-    st.success("왼쪽 영역")
-with col2:
-    st.write("중간 영역")
-with col3:
-    st.write("오른쪽 영역")
+cred = credentials.Certificate("key.json")
+if not firebase_admin._apps:
+   firebase_admin.initialize_app(cred)
+db = firestore.client()
+
+
+with st.form("input_form"):
+    title = st.title("은희의 메모장")  
+    task =st.text_input("할일을 적으세요")
+    sub = st.form_submit_button("추가")  
+if sub :
+    st.write(f"{task}추가됨")
+
+  
+if sub and task:
+    db.collection("todos").add({"content":task, "at":firestore.SERVER_TIMESTAMP})
+    st.rerun()
