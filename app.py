@@ -3,10 +3,15 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 
-cred_dict = dict(st.secrets["firebase_key"])
 
-if not firebase_admin._apps:
-    cred = credentials.Certificate(cred_dict)
+
+
+key_string = st.secrets["firebase_key"]
+cred_dict = json.loads(key_string)
+
+cred = credentials.Certificate(cred_dict)
+
+
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
